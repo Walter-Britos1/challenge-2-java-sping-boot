@@ -12,14 +12,22 @@ public class Book {
     private Long id;
     @Column(unique = true)
     private String title;
-//    private List<DataAuthors> authors;
+    @Transient
+    private List<DataAuthors> authors;
     private List<String> languages;
+    @Column(name = "downloads")
+    private Double downloads;
+
+    public Book() {
+    }
 
     public Book(DataBook dataBook) {
         this.title = dataBook.title();
-//        this.authors = dataBook.authors();
+        this.authors = dataBook.authors();
         this.languages = dataBook.languages();
+        this.downloads = dataBook.downloand();
     }
+
 
     public Long getId() {
         return id;
@@ -37,13 +45,13 @@ public class Book {
         this.title = title;
     }
 
-//    public List<DataAuthors> getAuthors() {
-//        return authors;
-//    }
+    public List<DataAuthors> getAuthors() {
+        return authors;
+    }
 
-//    public void setAuthors(List<DataAuthors> authors) {
-//        this.authors = authors;
-//    }
+    public void setAuthors(List<DataAuthors> authors) {
+        this.authors = authors;
+    }
 
     public List<String> getLanguages() {
         return languages;
@@ -51,6 +59,14 @@ public class Book {
 
     public void setLanguages(List<String> languages) {
         this.languages = languages;
+    }
+
+    public Double getDownloads() {
+        return downloads;
+    }
+
+    public void setDownloads(Double downloads) {
+        this.downloads = downloads;
     }
 }
 
