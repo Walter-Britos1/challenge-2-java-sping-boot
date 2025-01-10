@@ -1,6 +1,7 @@
 package com.aluracurso.challengeLiteratura;
 
 import com.aluracurso.challengeLiteratura.Main.Main;
+import com.aluracurso.challengeLiteratura.repository.AuthorRpository;
 import com.aluracurso.challengeLiteratura.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -11,16 +12,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ChallengeLiteraturaApplication implements CommandLineRunner {
 
     @Autowired
-    private BookRepository repository;
+    private BookRepository bookRepository;
 
-	public static void main(String[] args) {
-		SpringApplication.run(ChallengeLiteraturaApplication.class, args);
-	}
+    @Autowired
+    private AuthorRpository authorRepository;
 
-	@Override
-	public void run(String... args) throws Exception {
-		Main main = new Main(repository);
-		main.showMenu();
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ChallengeLiteraturaApplication.class, args);
+    }
 
+    @Override
+    public void run(String... args) throws Exception {
+        Main main = new Main(bookRepository, authorRepository);
+        main.showMenu();
+    }
 }

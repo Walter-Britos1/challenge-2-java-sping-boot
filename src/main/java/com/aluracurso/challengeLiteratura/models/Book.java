@@ -5,30 +5,36 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="books")
+@Table(name = "books")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
+
+    @Column(unique = true, nullable = false)
     private String title;
-    @Transient
-    private List<DataAuthors> authors;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private Author author;
+
+    @ElementCollection
     private List<String> languages;
+
     @Column(name = "downloads")
     private Double downloads;
 
     public Book() {
     }
 
-    public Book(DataBook dataBook) {
-        this.title = dataBook.title();
-        this.authors = dataBook.authors();
-        this.languages = dataBook.languages();
-        this.downloads = dataBook.downloand();
+    public Book(String title, Author author, List<String> languages, Double downloads) {
+        this.title = title;
+        this.author = author;
+        this.languages = languages;
+        this.downloads = downloads;
     }
 
-
+    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -45,12 +51,12 @@ public class Book {
         this.title = title;
     }
 
-    public List<DataAuthors> getAuthors() {
-        return authors;
+    public Author getAuthor() {
+        return author;
     }
 
-    public void setAuthors(List<DataAuthors> authors) {
-        this.authors = authors;
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 
     public List<String> getLanguages() {
@@ -68,5 +74,15 @@ public class Book {
     public void setDownloads(Double downloads) {
         this.downloads = downloads;
     }
-}
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author=" + (author != null ? author.getName() : "N/A") +
+                ", languages=" + languages +
+                ", downloads=" + downloads +
+                '}';
+    }
+}
