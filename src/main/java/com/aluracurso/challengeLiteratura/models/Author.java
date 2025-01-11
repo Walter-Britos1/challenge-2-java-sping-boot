@@ -16,6 +16,9 @@ public class Author {
     @Column(name = "birth_year")
     private String birthYear;
 
+    @Column(name = "death_year")
+    private String deathYear;
+
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Book> books;
 

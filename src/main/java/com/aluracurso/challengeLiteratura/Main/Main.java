@@ -32,9 +32,10 @@ public class Main {
         while(option != 0) {
             var menu = """
                      \n####### Menú #######
-                     \n1 - Buscar libro
+                   \n1 - Buscar libro
                      2 - Ver lista de libros
                      3 - Ver lista de autores
+                     4 - Ver autores vivos en un año
                      
                      0 - Salir
                     """;
@@ -54,6 +55,10 @@ public class Main {
 
                 case 3:
                     showListAuthors();
+                break;
+
+                case 4:
+                    showAliveAuthorsByYear();
                 break;
 
                 case 0:
@@ -149,6 +154,29 @@ public class Main {
                 System.out.println("No hay libros asociados.");
             }
         });
+    }
+
+    @Transactional
+    public void showAliveAuthorsByYear() {
+        System.out.println("Ingrese el año para ver los autores vivos: ");
+        int year = input.nextInt();
+        input.nextLine(); // Limpiar el buffer
+
+        // Obtener la lista de autores vivos en ese año
+        var authors = authorRpository.findAliveAuthorsByYear(year);
+
+        if (authors.isEmpty()) {
+            System.out.println("No hay autores vivos en el año " + year);
+        } else {
+            System.out.println("####### Autores vivos en el año " + year + " #######");
+            authors.forEach(author -> {
+                System.out.println("Nombre: " + author.getName());
+                System.out.println("Fecha de nacimiento: " + author.getBirthYear());
+                System.out.println("Libros: ");
+                author.getBooks().forEach(book -> System.out.println("- " + book.getTitle()));
+                System.out.println("-------------------------");
+            });
+        }
     }
 
 }
