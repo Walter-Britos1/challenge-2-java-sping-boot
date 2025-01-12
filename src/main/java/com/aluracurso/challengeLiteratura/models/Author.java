@@ -25,9 +25,10 @@ public class Author {
     public Author() {
     }
 
-    public Author(String name, String birthYear) {
+    public Author(String name, String birthYear, String deathYear) {
         this.name = name;
         this.birthYear = birthYear;
+        this.deathYear = deathYear;
     }
 
     // Getters y Setters
@@ -61,5 +62,13 @@ public class Author {
 
     public void setBooks(List<Book> books) {
         this.books = books;
+    }
+
+    public String getDeathYear() {
+        return deathYear;
+    }
+
+    public void setDeathYear(String deathYear) {
+        this.deathYear = deathYear;
     }
 }

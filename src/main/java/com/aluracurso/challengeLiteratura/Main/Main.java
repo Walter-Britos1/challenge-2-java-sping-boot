@@ -10,6 +10,7 @@ import com.aluracurso.challengeLiteratura.services.ApiClient;
 import com.aluracurso.challengeLiteratura.services.DataConverter;
 import jakarta.transaction.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -85,7 +86,7 @@ public class Main {
                 .findFirst()
                 .orElseGet(() -> {
                     // Crear y guardar el autor si no existe
-                    Author newAuthor = new Author(dataAuthor.name(), dataAuthor.birthYear());
+                    Author newAuthor = new Author(dataAuthor.name(), dataAuthor.birthYear(), dataAuthor.deathYear());
                     authorRpository.save(newAuthor);
                     return newAuthor;
                 });
@@ -127,8 +128,8 @@ public class Main {
         } else {
             System.out.println("####### Lista de Libros #######");
             books.forEach(book -> {
-                System.out.println("Título: " + book.getTitle());
-                System.out.println("Idiomas: " + book.getLanguages());  // Esto ahora debería estar disponible
+                System.out.println("\nTítulo: " + book.getTitle());
+                System.out.println("Idiomas: " + book.getLanguages());
                 System.out.println("Descargas: " + book.getDownloads());
                 System.out.println("-------------------------");
             });
@@ -144,6 +145,7 @@ public class Main {
         authorRpository.findAll().forEach(author -> {
             System.out.println("\nNombre: " + author.getName());
             System.out.println("Fecha de nacimiento: " + author.getBirthYear());
+            System.out.println("Fecha de fallecimiento: " + author.getDeathYear());
             System.out.println("Libros: ");
 
             // Verificar si el autor tiene libros
@@ -156,13 +158,11 @@ public class Main {
         });
     }
 
-    @Transactional
     public void showAliveAuthorsByYear() {
         System.out.println("Ingrese el año para ver los autores vivos: ");
         int year = input.nextInt();
-        input.nextLine(); // Limpiar el buffer
+        input.nextLine();
 
-        // Obtener la lista de autores vivos en ese año
         var authors = authorRpository.findAliveAuthorsByYear(year);
 
         if (authors.isEmpty()) {
@@ -172,11 +172,15 @@ public class Main {
             authors.forEach(author -> {
                 System.out.println("Nombre: " + author.getName());
                 System.out.println("Fecha de nacimiento: " + author.getBirthYear());
+                System.out.println("Fecha de fallecimiento: " + (author.getDeathYear() == null ? "Sigue vivo" : author.getDeathYear()));
                 System.out.println("Libros: ");
-                author.getBooks().forEach(book -> System.out.println("- " + book.getTitle()));
+                if (author.getBooks() != null && !author.getBooks().isEmpty()) {
+                    author.getBooks().forEach(book -> System.out.println("- " + book.getTitle()));
+                } else {
+                    System.out.println("No hay libros asociados.");
+                }
                 System.out.println("-------------------------");
             });
         }
     }
-
 }
