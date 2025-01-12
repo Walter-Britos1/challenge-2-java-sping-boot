@@ -37,6 +37,7 @@ public class Main {
                      2 - Ver lista de libros
                      3 - Ver lista de autores
                      4 - Ver autores vivos en un año
+                     5 - Listar libros por idioma
                      
                      0 - Salir
                     """;
@@ -60,6 +61,10 @@ public class Main {
 
                 case 4:
                     showAliveAuthorsByYear();
+                break;
+
+                case 5:
+                    showBooksByLanguage();
                 break;
 
                 case 0:
@@ -179,6 +184,32 @@ public class Main {
                 } else {
                     System.out.println("No hay libros asociados.");
                 }
+                System.out.println("-------------------------");
+            });
+        }
+    }
+
+    public void showBooksByLanguage() {
+        System.out.println("Ingrese el idioma para buscar libros: ");
+        System.out.println("""
+            Ejemplos: 
+            es - Español
+            en - Inglés
+            fr - Francés
+            pt - Portugués
+            """);
+        String language = input.nextLine();
+
+        var books = repository.findBooksByLanguage(language);
+
+        if (books.isEmpty()) {
+            System.out.println("No se encontraron libros en el idioma: " + language);
+        } else {
+            System.out.println("####### Libros en el idioma: " + language + " #######");
+            books.forEach(book -> {
+                System.out.println("Título: " + book.getTitle());
+                System.out.println("Autor: " + book.getAuthor().getName());
+                System.out.println("Descargas: " + book.getDownloads());
                 System.out.println("-------------------------");
             });
         }
