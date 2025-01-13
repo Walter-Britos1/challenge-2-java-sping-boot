@@ -28,7 +28,7 @@ Este proyecto es una aplicación de consola desarrollada en Java que permite ges
 
 - Incluye información sobre el nombre del autor, su año de nacimiento y fallecimiento (si aplica), y los libros asociados.
 
-🌍 5. Listar libros por idioma
+5. Listar libros por idioma 🌍
 
 - Filtra y muestra los libros que están disponibles en un idioma específico.
 
